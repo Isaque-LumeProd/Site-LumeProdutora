@@ -1,0 +1,101 @@
+/* page-motion: o movimento próprio da Lume, por cima do kit (motion.css e moments).
+   - .vf        visor de câmera sobre a foto do hero: cantos, REC piscando e timecode correndo
+   - .pm-bar    barra de progresso da leitura, em brasa, colada no topo
+   - .pm-rise   títulos de seção sobem da máscara uma vez, quando chegam na tela
+   - .pm-focus  cantos de foco que fecham sobre a foto dos trabalhos sob o ponteiro
+   - [data-peek] a foto dos serviços entra com um corte suave ao trocar de linha
+   - .pm-mq     a faixa de palavras (marquee-row do kit) no tamanho da marca
+   Sem script, em impressão e com movimento reduzido: tudo parado e visível. */
+
+:root { --pm-ease: cubic-bezier(.22, 1, .36, 1); --pm-brasa: #C2361F; }
+
+/* ------------------------------------------------------------ visor do hero */
+.vf, .pm-focus { filter: drop-shadow(0 1px 1.5px rgb(0 0 0 / .45)); }
+.vf { position: absolute; inset: 0; z-index: 2; pointer-events: none; color: #fff;
+  font: 600 12px/1 var(--font-text); letter-spacing: .08em; font-variant-numeric: tabular-nums;
+  text-shadow: 0 1px 2px rgb(0 0 0 / .45); }
+.vf__c { position: absolute; width: 28px; height: 28px; border: 0 solid rgb(255 255 255 / .9); }
+.vf__c--tl { top: 18px; left: 18px; border-top-width: 2px; border-left-width: 2px; }
+.vf__c--tr { top: 18px; right: 18px; border-top-width: 2px; border-right-width: 2px; }
+.vf__c--bl { bottom: 18px; left: 18px; border-bottom-width: 2px; border-left-width: 2px; }
+.vf__c--br { bottom: 18px; right: 18px; border-bottom-width: 2px; border-right-width: 2px; }
+.vf__rec { position: absolute; top: 26px; left: 58px; display: flex; align-items: center; gap: 8px; }
+.vf__rec i { width: 9px; height: 9px; border-radius: 50%; background: var(--pm-brasa); box-shadow: 0 0 0 2px rgb(255 255 255 / .25); }
+.vf__tc { position: absolute; top: 26px; right: 58px; }
+.vf__focus { position: absolute; left: 50%; top: 50%; width: 56px; height: 40px; translate: -50% -50%;
+  border: 1.5px solid rgb(255 255 255 / .75); }
+.vf__focus::before, .vf__focus::after { content: ""; position: absolute; background: rgb(255 255 255 / .75); }
+.vf__focus::before { left: 50%; top: -8px; width: 1.5px; height: 6px; }
+.vf__focus::after { top: 50%; left: -8px; height: 1.5px; width: 6px; }
+@media screen and (prefers-reduced-motion: no-preference) {
+  html.pm-js .vf__rec i { animation: pm-rec 1.2s steps(1, end) infinite; }
+  /* o visor chega depois da foto: os cantos fecham de fora para dentro e o foco acerta */
+  html.pm-js .vf__c { transition: translate 900ms var(--pm-ease) 500ms, opacity 500ms ease 500ms; }
+  html.pm-js .vf:not(.is-on) .vf__c { opacity: 0; }
+  html.pm-js .vf:not(.is-on) .vf__c--tl { translate: -14px -14px; }
+  html.pm-js .vf:not(.is-on) .vf__c--tr { translate: 14px -14px; }
+  html.pm-js .vf:not(.is-on) .vf__c--bl { translate: -14px 14px; }
+  html.pm-js .vf:not(.is-on) .vf__c--br { translate: 14px 14px; }
+  html.pm-js .vf__rec, html.pm-js .vf__tc { transition: opacity 500ms ease 900ms; }
+  html.pm-js .vf:not(.is-on) :is(.vf__rec, .vf__tc) { opacity: 0; }
+  html.pm-js .vf.is-on .vf__focus { animation: pm-focus 1100ms var(--pm-ease) 700ms both; }
+  /* a foto do hero respira devagar depois de entrar: um zoom lento de 18 s, ida e volta */
+  html.pm-js .hero.is-entered .hero__media > img { animation: pm-drift 18s ease-in-out 2 alternate; }
+}
+@keyframes pm-rec { 0%, 60% { opacity: 1; } 61%, 100% { opacity: .15; } }
+@keyframes pm-focus { 0% { scale: 1.9; opacity: 0; } 45% { scale: .92; opacity: 1; } 70% { scale: 1.04; } 100% { scale: 1; opacity: 1; } }
+@keyframes pm-drift { from { scale: 1; } to { scale: 1.07; } }
+@media (max-width: 639px) {
+  .vf__c { width: 20px; height: 20px; }
+  .vf__c--tl, .vf__c--tr { top: 12px; } .vf__c--bl, .vf__c--br { bottom: 12px; }
+  .vf__c--tl, .vf__c--bl { left: 12px; } .vf__c--tr, .vf__c--br { right: 12px; }
+  .vf__rec { top: 18px; left: 42px; } .vf__tc { top: 18px; right: 42px; }
+  .vf { font-size: 11px; }
+}
+
+/* ------------------------------------------------------------ barra de progresso */
+.pm-bar { position: fixed; inset: 0 0 auto 0; z-index: 60; height: 2px; background: var(--pm-brasa);
+  transform-origin: 0 50%; transform: scaleX(var(--pm-p, 0)); pointer-events: none; }
+@media (prefers-reduced-motion: reduce) { .pm-bar { display: none; } }
+
+/* ------------------------------------------------------------ títulos que sobem */
+.pm-rise { display: block; overflow: clip; padding-bottom: .1em; margin-bottom: -.1em; }
+.pm-rise > .pm-rise__in { display: block; }
+@media screen and (prefers-reduced-motion: no-preference) {
+  .pm-rise.is-armed:not(.is-in) > .pm-rise__in { translate: 0 105%; }
+  .pm-rise.is-armed:not(.is-in) ~ p { opacity: 0; translate: 0 12px; }
+  .pm-rise.is-in > .pm-rise__in { translate: 0 0; transition: translate 850ms var(--pm-ease); }
+  .pm-rise.is-in ~ p { opacity: 1; translate: 0 0; transition: opacity 700ms ease 180ms, translate 900ms var(--pm-ease) 180ms; }
+}
+
+/* ------------------------------------------------------------ foco nas fotos dos trabalhos */
+#trabalhos .frame > .pm-focus, .pm-focus { position: absolute; inset: 14px; z-index: 2; pointer-events: none; opacity: 0;
+  transition: opacity 300ms ease, inset 600ms var(--pm-ease); }
+.pm-focus i { position: absolute; width: 26px; height: 26px; border: 0 solid rgb(255 255 255 / .95); }
+.pm-focus i:nth-child(1) { top: 0; left: 0; border-top-width: 2px; border-left-width: 2px; }
+.pm-focus i:nth-child(2) { top: 0; right: 0; border-top-width: 2px; border-right-width: 2px; }
+.pm-focus i:nth-child(3) { bottom: 0; left: 0; border-bottom-width: 2px; border-left-width: 2px; }
+.pm-focus i:nth-child(4) { bottom: 0; right: 0; border-bottom-width: 2px; border-right-width: 2px; }
+.pm-focus b { position: absolute; left: var(--fx, 50%); top: var(--fy, 50%); width: 64px; height: 44px; translate: -50% -50%;
+  border: 1.5px solid rgb(255 255 255 / .8); transition: left 380ms var(--pm-ease), top 380ms var(--pm-ease); }
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  #trabalhos .frame { position: relative; }
+  #trabalhos .frame:hover .pm-focus { opacity: 1; inset: 22px; }
+  #trabalhos .frame:hover .pm-focus b { animation: pm-focus 900ms var(--pm-ease) both; }
+}
+
+/* ------------------------------------------------------------ troca de foto nos serviços */
+@media screen and (prefers-reduced-motion: no-preference) {
+  [data-peek] .frame__img:not([hidden]) { animation: pm-cut 700ms var(--pm-ease) both; }
+}
+@keyframes pm-cut { from { clip-path: inset(0 0 0 100%); scale: 1.06; } to { clip-path: inset(0); scale: 1; } }
+
+/* ------------------------------------------------------------ faixa de palavras */
+.pm-mq { margin-top: var(--s-8); border-block: 1px solid color-mix(in oklab, var(--ink) 14%, transparent); }
+.pm-mq.mo-mq .mo-mq__track { font: var(--display-weight, 400) clamp(28px, 4.2vw, 60px)/1.05 var(--font-display);
+  font-stretch: var(--display-stretch, 100%); letter-spacing: var(--display-tracking, -0.02em); color: var(--ink); }
+.pm-mq.mo-mq .mo-mq__track li { display: inline-flex; align-items: center; gap: calc(var(--mo-gap) * .5); }
+.pm-mq.mo-mq .mo-mq__track li::before { content: ""; width: .42em; height: .5em; background: var(--pm-brasa);
+  clip-path: polygon(0 0, 100% 50%, 0 100%); flex: none; }
+
+@media print { .vf, .pm-bar, .pm-focus { display: none; } .pm-rise > .pm-rise__in, .pm-rise ~ p { translate: none !important; opacity: 1 !important; } }

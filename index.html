@@ -26,6 +26,7 @@
 <link rel="stylesheet" href="assets/backgrounds/backgrounds.css">
 <link rel="stylesheet" href="assets/layout/layout.css">
 <link rel="stylesheet" href="assets/icons/icon.css">
+<link rel="stylesheet" href="assets/page-motion.css">
 <style>
 :root {
   --p-bg: #f2ede3; --p-surface: #e9e2d5; --p-ink: #14110f; --p-muted: #66625c;
@@ -47,6 +48,8 @@
 <link rel="modulepreload" href="assets/moments/lib.js">
 <link rel="modulepreload" href="assets/moments/pinned-chapters/moment.js">
 <link rel="modulepreload" href="assets/moments/word-highlight/moment.js">
+<link rel="modulepreload" href="assets/moments/marquee-row/moment.js">
+<link rel="modulepreload" href="assets/moments/picture-develops/moment.js">
 <!-- page CSS: só o que fica dentro de um visual -->
 <style>
   .nav__logo svg { height: 22px; }
@@ -74,7 +77,9 @@
            mark: o logotipo da própria Lume, grounds: nenhum (kind other)
      palette: as cores da marca (start.mjs brand): marfim #F2EDE3, noir #14110F, brasa #C2361F
      type: archivo (o mesmo da identidade), radius sharp
-     moments: word-highlight (#lume, a frase da marca), pinned-chapters (#processo, as três etapas) -->
+     moments: word-highlight (#lume, a frase da marca), pinned-chapters (#processo, as três etapas),
+              marquee-row (fim de #trabalhos, os formatos), picture-develops (#orcamento, a foto revela como filme)
+     page-motion: visor REC/timecode no hero, barra de progresso, títulos que sobem, foco nas fotos dos trabalhos -->
 <header class="nav">
   <div class="wrap nav__bar">
     <a class="skip-link" href="#top">Pular para o conteúdo</a>
@@ -134,6 +139,7 @@
       </div>
       <div class="hero__media span-6 start-7">
         <img src="assets/img/photo-f117772889-960.jpg" srcset="assets/img/photo-f117772889-500.jpg 500w, assets/img/photo-f117772889-960.jpg 960w, assets/img/photo-f117772889.jpg 1280w" sizes="(max-width: 639px) 600px, 1280px" width="1280" height="719" alt="Câmera de cinema montada num rig, com para-sol aberto na frente da lente" fetchpriority="high" style="--ly-pos: 48% 50%" data-source="stand-in" data-subject="camera">
+        <div class="vf" aria-hidden="true"><span class="vf__c vf__c--tl"></span><span class="vf__c vf__c--tr"></span><span class="vf__c vf__c--bl"></span><span class="vf__c vf__c--br"></span><span class="vf__rec"><i></i>REC</span><span class="vf__tc">00:00:00:00</span><span class="vf__focus"></span></div>
       </div>
     </div></div>
   </section>
@@ -171,6 +177,9 @@
         <div class="frame frame--photo"><img class="frame__img" src="assets/img/photo-f79035683-960.jpg" srcset="assets/img/photo-f79035683-500.jpg 500w, assets/img/photo-f79035683-960.jpg 960w" sizes="(max-width: 639px) 460px, (max-width: 1023px) 100vw, 640px" width="960" height="720" alt="Casa de dois andares com jardim gramado, na luz do fim da tarde" loading="lazy" decoding="async" style="--ly-pos: 45% 50%" data-source="stand-in" data-subject="imovel"></div>
         <div class="frame frame--photo"><img class="frame__img" src="assets/img/photo-f146802101-960.jpg" srcset="assets/img/photo-f146802101-500.jpg 500w, assets/img/photo-f146802101-960.jpg 960w, assets/img/photo-f146802101.jpg 1280w" sizes="(max-width: 639px) 260px, (max-width: 1023px) 660px, 640px" width="1280" height="848" alt="Monitor de câmera num rig, mostrando a cena que está sendo gravada" loading="lazy" decoding="async" data-source="stand-in" data-subject="set"></div>
         <div class="frame frame--photo"><img class="frame__img" src="assets/img/photo-f179988984-960.jpg" srcset="assets/img/photo-f179988984-500.jpg 500w, assets/img/photo-f179988984-960.jpg 960w, assets/img/photo-f179988984.jpg 1280w" sizes="(max-width: 639px) 260px, (max-width: 1023px) 660px, 640px" width="1280" height="853" alt="Câmera de filme antiga com três lentes, sobre uma mesa de madeira clara" loading="lazy" decoding="async" data-source="stand-in" data-subject="camera"></div>
+      </div>
+      <div class="pm-mq" data-moment="marquee-row" data-moment-opts='{"speed": 48, "gap": 56}'>
+        <ul class="mo-mq__track"><li>Filme institucional</li><li>Imobiliário</li><li>Reels</li><li>TikTok</li><li>Shorts</li><li>Roteiro</li><li>Gravação</li><li>Edição</li><li>Três Lagoas e região</li></ul>
       </div>
     </div>
   </section>
@@ -228,7 +237,7 @@
         <p class="form__status" role="status" data-form-status></p>
       </form>
       </div>
-      <div class="frame frame--photo frame--fill orc__photo span-6 start-7"><img class="frame__img" src="assets/img/photo-f62331947-960.jpg" srcset="assets/img/photo-f62331947-500.jpg 500w, assets/img/photo-f62331947-960.jpg 960w, assets/img/photo-f62331947.jpg 1280w" sizes="(max-width: 1023px) 100vw, 800px" width="1280" height="851" alt="Câmera pequena num tripé, gravando à beira da água" loading="lazy" decoding="async" data-source="stand-in" data-subject="camera"></div>
+      <div class="frame frame--photo frame--fill orc__photo span-6 start-7" data-moment="picture-develops"><img class="frame__img" src="assets/img/photo-f62331947-960.jpg" srcset="assets/img/photo-f62331947-500.jpg 500w, assets/img/photo-f62331947-960.jpg 960w, assets/img/photo-f62331947.jpg 1280w" sizes="(max-width: 1023px) 100vw, 800px" width="1280" height="851" alt="Câmera pequena num tripé, gravando à beira da água" loading="lazy" decoding="async" data-source="stand-in" data-subject="camera"></div>
     </div>
   </section>
 </main>
@@ -275,5 +284,6 @@
 <script type="module" src="assets/system.js"></script>
 <script type="module" src="assets/motion/motion.js"></script>
 <script type="module" src="assets/layout/layout.js"></script>
+<script type="module" src="assets/page-motion.js"></script>
 </body>
 </html>
