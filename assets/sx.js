@@ -34,7 +34,7 @@ function start() {
     const text = hero.querySelector('.hero__text');
     const wrap = hero.querySelector(':scope > .wrap');
     const layer = hero.querySelector('.sx-layer');
-    const img = layer?.querySelector('img');
+    const img = layer?.querySelector('img, video');
     const vf = media?.querySelector('.vf');
     const end = layer?.querySelector('.sxh__end');
     if (media && text && wrap && layer && img) {
@@ -55,7 +55,10 @@ function start() {
           const rad = lerp(box.rad, 0, g);
           layer.style.clipPath = `inset(${t}px ${r}px ${b}px ${l}px round ${rad}px)`;
           if (vf) { vf.style.inset = `${t}px ${r}px ${b}px ${l}px`; }
-          img.style.transform = `scale(${lerp(1.18, 1, ease(seg(p, 0, .8)))})`;
+          // o assunto da foto (data-focus-y, 0..1 da altura) fica no meio da moldura enquanto ela é pequena
+          const fy = parseFloat(img.dataset.focusY || .5);
+          const dy = ((box.t + (vh - box.t - box.b) / 2) - vh * fy) * (1 - g);
+          img.style.transform = `translate3d(0, ${dy.toFixed(1)}px, 0) scale(${lerp(1.18, 1, ease(seg(p, 0, .8)))})`;
           layer.style.setProperty('--shade', (.45 * seg(p, .5, .85)).toFixed(3));
           const o = 1 - seg(p, .04, .34);                  // o texto sobe e some
           text.style.opacity = o.toFixed(3);
@@ -76,7 +79,7 @@ function start() {
   if (band) {
     const words = [...band.querySelectorAll('.sxb__words > span')];
     const play = band.querySelector('.sxb__play');
-    const pimg = play?.querySelector('img');
+    const pimg = play?.querySelector('img, video');
     scenes.push({
       el: band,
       update() {
@@ -125,7 +128,7 @@ function start() {
         cards.forEach((c, i) => {
           const r = c.getBoundingClientRect();
           const off = (r.left + r.width / 2 - vw / 2) / vw;                  // -1..1 em relação ao centro
-          const im = c.querySelector('img');
+          const im = c.querySelector('.sxs__pic > img, .sxs__pic > video');
           if (im) im.style.transform = `translate3d(${(-off * 12).toFixed(2)}%, 0, 0) scale(1.18)`;
           c.style.setProperty('--focus', (1 - clamp(Math.abs(off) * 1.4)).toFixed(3));
           if (Math.abs(off) < bestD) { bestD = Math.abs(off); best = i; }

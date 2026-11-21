@@ -19,7 +19,7 @@ html.sx-on .sx-layer {
   display: block; position: sticky; top: 0; z-index: 1; height: 100vh; height: 100svh; margin-bottom: -100vh; margin-bottom: -100svh;
   overflow: hidden; background: #14110f; contain: paint;
 }
-.sx-layer > img { position: absolute; inset: 0; width: 100%; height: 100%; max-width: none; object-fit: cover; object-position: 48% 50%; will-change: transform; }
+.sx-layer > :is(img, video) { position: absolute; inset: 0; width: 100%; height: 100%; max-width: none; object-fit: cover; object-position: 62% 50%; will-change: transform; }
 .sx-layer::after { content: ""; position: absolute; inset: 0; background: #14110f; opacity: var(--shade, 0); pointer-events: none; }
 .sx-layer .vf { z-index: 3; }
 .sxh__end {
@@ -27,7 +27,8 @@ html.sx-on .sx-layer {
   font: var(--display-weight, 400) clamp(40px, 7.4vw, 120px)/.98 var(--font-display); font-stretch: var(--display-stretch, 100%);
   letter-spacing: var(--display-tracking-xl, -0.03em); color: #f2ede3; opacity: 0; text-wrap: balance;
 }
-.sxh__end em { font-style: normal; color: #C2361F; }
+.sxh__end em { font-style: normal; color: #F2A33A; }
+.sxh__end { text-shadow: 0 2px 24px rgb(0 0 0 / .35); }
 
 /* ------------------------------------------------------------------ band: Luz. Câmera. Ação. */
 .sx-band > .wrap { justify-content: center; }
@@ -46,13 +47,13 @@ html.sx-on .sxb__play {
   display: block; position: sticky; top: 0; z-index: 3; height: 100vh; height: 100svh; margin-bottom: -100vh; margin-bottom: -100svh;
   background: #C2361F; overflow: hidden; visibility: hidden; clip-path: polygon(50% 50%, 50% 50%, 50% 50%);
 }
-.sxb__play > img { position: absolute; inset: 0; width: 100%; height: 100%; max-width: none; object-fit: cover; opacity: 0; will-change: transform, opacity; }
+.sxb__play > :is(img, video) { position: absolute; inset: 0; width: 100%; height: 100%; max-width: none; object-fit: cover; opacity: 0; will-change: transform, opacity; }
 
 /* ------------------------------------------------------------------ services: horizontal */
 .sxs__track { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--gutter); }
 .sxs__card { position: relative; display: flex; flex-direction: column; gap: var(--s-4); min-width: 0; }
 .sxs__pic { position: relative; overflow: hidden; border-radius: var(--r-lg); background: var(--surface); aspect-ratio: 4 / 5; }
-.sxs__pic > img { position: absolute; inset: 0; width: 100%; height: 100%; max-width: none; object-fit: cover; }
+.sxs__pic > :is(img, video) { position: absolute; inset: 0; width: 100%; height: 100%; max-width: none; object-fit: cover; }
 .sxs__txt { display: grid; gap: var(--s-2); }
 .sxs__n { font-size: var(--t-small); color: #C2361F; font-variant-numeric: tabular-nums; letter-spacing: .04em; }
 .sxs__txt h3 { margin: 0; font: var(--display-weight, 400) clamp(24px, 2.4vw, 36px)/1.05 var(--font-display); font-stretch: var(--display-stretch, 100%); letter-spacing: var(--display-tracking, -0.02em); }
@@ -70,7 +71,7 @@ html.sx-on .sxs__viewport { flex: 1 1 0; min-height: 0; }
 html.sx-on .sxs__track { display: flex; width: max-content; height: 100%; gap: clamp(16px, 2.4vw, 40px); will-change: transform; }
 html.sx-on .sxs__card { width: min(70vw, 1040px); height: 100%; gap: 0; }
 html.sx-on .sxs__pic { aspect-ratio: auto; flex: 1 1 0; min-height: 0; }
-html.sx-on .sxs__pic > img { will-change: transform; }
+html.sx-on .sxs__pic > :is(img, video) { will-change: transform; }
 html.sx-on .sxs__txt {
   position: absolute; left: var(--s-5); bottom: var(--s-5); z-index: 2; width: min(420px, calc(100% - 2 * var(--s-5)));
   padding: var(--s-5); background: var(--bg); border-radius: var(--r-md);
@@ -92,3 +93,22 @@ html.sx-on [data-sx="close"] .close__media { will-change: transform; transform-o
 html.sx-on [data-sx="close"] .close__media > img { will-change: transform; }
 
 @media print { .sx-layer, .sxb__play { display: none !important; } }
+
+/* ------------------------------------------------------------------ reel vertical no cartão de redes */
+.sxs__pic--reel { background: #14110f; display: grid; place-items: center; }
+.sxs__phone { position: relative; height: 92%; aspect-ratio: 9 / 16; border-radius: 22px; overflow: hidden;
+  box-shadow: 0 0 0 6px #201d1b, 0 24px 60px -20px rgb(0 0 0 / .6); background: #000; }
+.sxs__phone > video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+html.sx-on .sxs__pic--reel { place-items: center end; padding-right: clamp(24px, 8%, 120px); }
+@media (max-width: 1023px) { html.sx-on .sxs__pic--reel { place-items: start center; padding: var(--s-4) 0 0; } html.sx-on .sxs__pic--reel .sxs__phone { height: 62%; } }
+
+/* ------------------------------------------------------------------ botão que pausa os vídeos */
+.lv-toggle { position: fixed; right: 16px; bottom: 16px; z-index: 55; display: inline-flex; align-items: center; gap: 8px;
+  height: 40px; padding: 0 14px 0 12px; border-radius: 999px; border: 1px solid rgb(242 237 227 / .25);
+  background: rgb(20 17 15 / .72); color: #f2ede3; font: 500 13px/1 var(--font-text); cursor: pointer;
+  -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); transition: background-color .2s ease, transform .2s ease; }
+.lv-toggle:hover { background: rgb(20 17 15 / .9); }
+.lv-toggle:active { transform: scale(.97); }
+.lv-toggle svg { width: 12px; height: 12px; fill: currentColor; }
+.lv-toggle:focus-visible { outline: 2px solid #C2361F; outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) { .lv-toggle { display: none; } }

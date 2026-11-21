@@ -85,6 +85,35 @@ function focusFrames() {
   });
 }
 
-for (const fn of [viewfinder, progressBar, headings, focusFrames]) {
+/* ------------------------------------------------ vídeos: tocam só na tela, sem som; um botão pausa todos */
+function videos() {
+  const vs = [...document.querySelectorAll('video[data-lv]')];
+  if (!vs.length || reduced.matches) return;            // movimento reduzido: fica a capa (poster)
+  let paused = false;
+  const seen = new Set();
+  const io = new IntersectionObserver(es => es.forEach(e => {
+    const v = e.target;
+    if (e.isIntersecting) { seen.add(v); if (!paused) v.play().catch(() => {}); }
+    else { seen.delete(v); v.pause(); }
+  }), { rootMargin: '150px 0px' });
+  vs.forEach(v => { v.muted = true; v.setAttribute('muted', ''); io.observe(v); });
+  const btn = document.createElement('button');
+  btn.type = 'button';
+  btn.className = 'lv-toggle';
+  const draw = () => {
+    btn.innerHTML = paused
+      ? '<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3 1.5l7.5 4.5L3 10.5z"/></svg>Tocar vídeos'
+      : '<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 1.5h2.5v9H2.5zM7 1.5h2.5v9H7z"/></svg>Pausar vídeos';
+    btn.setAttribute('aria-pressed', String(paused));
+  };
+  btn.addEventListener('click', () => {
+    paused = !paused; draw();
+    vs.forEach(v => (paused || !seen.has(v)) ? v.pause() : v.play().catch(() => {}));
+  });
+  draw();
+  document.body.append(btn);
+}
+
+for (const fn of [viewfinder, progressBar, headings, focusFrames, videos]) {
   try { fn(); } catch (e) { console.warn('page-motion:', fn.name, e); }
 }
