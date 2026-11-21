@@ -1,0 +1,94 @@
+/* sx: as cenas da rolagem imersiva (sx.js). Tudo o que fixa uma cena na tela vale só com html.sx-on,
+   que o script liga quando há movimento; sem ele a página é o layout normal, parado. */
+
+/* Lenis */
+html.sx-smooth { scroll-behavior: auto !important; }
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-stopped { overflow: hidden; }
+
+/* ------------------------------------------------------------------ hero */
+.sx-layer { display: none; }
+html.sx-on main > section.hero[data-sx] { height: 260vh; height: 260svh; min-height: 0; padding: 0; display: block; }
+html.sx-on main > section.hero[data-sx] > .wrap {
+  position: sticky; top: 0; z-index: 2; height: 100vh; height: 100svh; box-sizing: border-box;
+  padding-top: calc(var(--nav) + var(--hgap)); padding-bottom: var(--hpadb);
+}
+html.sx-on .hero[data-sx] .hero__media { visibility: hidden; }
+html.sx-on .hero[data-sx] .hero__text { will-change: transform, opacity; }
+html.sx-on .sx-layer {
+  display: block; position: sticky; top: 0; z-index: 1; height: 100vh; height: 100svh; margin-bottom: -100vh; margin-bottom: -100svh;
+  overflow: hidden; background: #14110f; contain: paint;
+}
+.sx-layer > img { position: absolute; inset: 0; width: 100%; height: 100%; max-width: none; object-fit: cover; object-position: 48% 50%; will-change: transform; }
+.sx-layer::after { content: ""; position: absolute; inset: 0; background: #14110f; opacity: var(--shade, 0); pointer-events: none; }
+.sx-layer .vf { z-index: 3; }
+.sxh__end {
+  position: absolute; z-index: 4; left: 0; right: 0; bottom: 14svh; margin: 0 auto; width: min(100% - 2 * var(--gut), var(--container));
+  font: var(--display-weight, 400) clamp(40px, 7.4vw, 120px)/.98 var(--font-display); font-stretch: var(--display-stretch, 100%);
+  letter-spacing: var(--display-tracking-xl, -0.03em); color: #f2ede3; opacity: 0; text-wrap: balance;
+}
+.sxh__end em { font-style: normal; color: #C2361F; }
+
+/* ------------------------------------------------------------------ band: Luz. Câmera. Ação. */
+.sx-band > .wrap { justify-content: center; }
+.sxb__words {
+  display: flex; flex-wrap: wrap; justify-content: center; gap: 0 .35em; margin: 0; text-align: center;
+  font: var(--display-weight, 400) clamp(56px, 11vw, 190px)/.95 var(--font-display); font-stretch: var(--display-stretch, 100%);
+  letter-spacing: var(--display-tracking-xl, -0.035em); color: var(--ink);
+}
+.sxb__words > span:last-child { color: #C2361F; }
+.sxb__play { display: none; }
+html.sx-on main > section.sx-band { height: 330vh; height: 330svh; min-height: 0; padding: 0; display: block; overflow: clip; }
+html.sx-on .sx-band > .wrap { position: sticky; top: 0; height: 100vh; height: 100svh; box-sizing: border-box; padding-top: var(--nav); display: flex; flex-direction: column; justify-content: center; }
+html.sx-on .sxb__words { flex-direction: column; gap: 0; }
+html.sx-on .sxb__words > span { display: block; will-change: transform, opacity, filter; }
+html.sx-on .sxb__play {
+  display: block; position: sticky; top: 0; z-index: 3; height: 100vh; height: 100svh; margin-bottom: -100vh; margin-bottom: -100svh;
+  background: #C2361F; overflow: hidden; visibility: hidden; clip-path: polygon(50% 50%, 50% 50%, 50% 50%);
+}
+.sxb__play > img { position: absolute; inset: 0; width: 100%; height: 100%; max-width: none; object-fit: cover; opacity: 0; will-change: transform, opacity; }
+
+/* ------------------------------------------------------------------ services: horizontal */
+.sxs__track { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--gutter); }
+.sxs__card { position: relative; display: flex; flex-direction: column; gap: var(--s-4); min-width: 0; }
+.sxs__pic { position: relative; overflow: hidden; border-radius: var(--r-lg); background: var(--surface); aspect-ratio: 4 / 5; }
+.sxs__pic > img { position: absolute; inset: 0; width: 100%; height: 100%; max-width: none; object-fit: cover; }
+.sxs__txt { display: grid; gap: var(--s-2); }
+.sxs__n { font-size: var(--t-small); color: #C2361F; font-variant-numeric: tabular-nums; letter-spacing: .04em; }
+.sxs__txt h3 { margin: 0; font: var(--display-weight, 400) clamp(24px, 2.4vw, 36px)/1.05 var(--font-display); font-stretch: var(--display-stretch, 100%); letter-spacing: var(--display-tracking, -0.02em); }
+.sxs__txt p { margin: 0; color: var(--muted); max-width: 44ch; }
+.sxs__bar { display: none; }
+@media (max-width: 1023px) { .sxs__track { grid-template-columns: minmax(0, 1fr); } .sxs__pic { aspect-ratio: 16 / 10; } }
+
+html.sx-on main > section.sx-services { height: 340vh; height: 340svh; min-height: 0; padding: 0; display: block; overflow: clip; }
+html.sx-on .sx-services > .wrap {
+  position: sticky; top: 0; height: 100vh; height: 100svh; box-sizing: border-box;
+  padding-top: calc(var(--nav) + var(--s-7)); padding-bottom: var(--s-6); display: flex; flex-direction: column;
+}
+html.sx-on .sx-services .section-head { margin-bottom: var(--s-6); }
+html.sx-on .sxs__viewport { flex: 1 1 0; min-height: 0; }
+html.sx-on .sxs__track { display: flex; width: max-content; height: 100%; gap: clamp(16px, 2.4vw, 40px); will-change: transform; }
+html.sx-on .sxs__card { width: min(70vw, 1040px); height: 100%; gap: 0; }
+html.sx-on .sxs__pic { aspect-ratio: auto; flex: 1 1 0; min-height: 0; }
+html.sx-on .sxs__pic > img { will-change: transform; }
+html.sx-on .sxs__txt {
+  position: absolute; left: var(--s-5); bottom: var(--s-5); z-index: 2; width: min(420px, calc(100% - 2 * var(--s-5)));
+  padding: var(--s-5); background: var(--bg); border-radius: var(--r-md);
+  opacity: calc(.35 + .65 * var(--focus, 1)); transform: translateY(calc((1 - var(--focus, 1)) * 24px));
+}
+html.sx-on .sxs__bar { display: flex; align-items: center; gap: var(--s-4); margin-top: var(--s-5); font-size: var(--t-small); color: var(--muted); font-variant-numeric: tabular-nums; }
+.sxs__line { flex: 1 1 auto; height: 2px; background: color-mix(in oklab, var(--ink) 12%, transparent); overflow: hidden; }
+.sxs__line i { display: block; height: 100%; background: #C2361F; transform-origin: 0 50%; transform: scaleX(0); }
+@media (max-width: 1023px) {
+  html.sx-on .sxs__card { width: 84vw; }
+  html.sx-on .sx-services > .wrap { padding-top: calc(var(--nav) + var(--s-5)); }
+  html.sx-on .sx-services .section-head { margin-bottom: var(--s-5); }
+  html.sx-on .sxs__txt { left: var(--s-3); right: var(--s-3); bottom: var(--s-3); width: auto; padding: var(--s-4); }
+}
+
+/* ------------------------------------------------------------------ works e close */
+html.sx-on [data-sx="works"] .wall > .frame { will-change: transform; }
+html.sx-on [data-sx="close"] .close__media { will-change: transform; transform-origin: 50% 0; }
+html.sx-on [data-sx="close"] .close__media > img { will-change: transform; }
+
+@media print { .sx-layer, .sxb__play { display: none !important; } }

@@ -49,7 +49,7 @@ function progressBar() {
 
 /* ------------------------------------------------ títulos que sobem (só os que ainda estão abaixo da tela) */
 function headings() {
-  const hs = [...document.querySelectorAll('main > section:not(.hero, [data-moment]) h2, footer.closing h2')];
+  const hs = [...document.querySelectorAll('main > section:not(.hero, [data-moment], [data-sx="services"]) h2, footer.closing h2')];
   const io = new IntersectionObserver(entries => entries.forEach(e => {
     if (!e.isIntersecting) return;
     e.target.classList.add('is-in');

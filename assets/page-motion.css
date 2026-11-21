@@ -39,8 +39,6 @@
   html.pm-js .vf__rec, html.pm-js .vf__tc { transition: opacity 500ms ease 900ms; }
   html.pm-js .vf:not(.is-on) :is(.vf__rec, .vf__tc) { opacity: 0; }
   html.pm-js .vf.is-on .vf__focus { animation: pm-focus 1100ms var(--pm-ease) 700ms both; }
-  /* a foto do hero respira devagar depois de entrar: um zoom lento de 18 s, ida e volta */
-  html.pm-js .hero.is-entered .hero__media > img { animation: pm-drift 18s ease-in-out 2 alternate; }
 }
 @keyframes pm-rec { 0%, 60% { opacity: 1; } 61%, 100% { opacity: .15; } }
 @keyframes pm-focus { 0% { scale: 1.9; opacity: 0; } 45% { scale: .92; opacity: 1; } 70% { scale: 1.04; } 100% { scale: 1; opacity: 1; } }

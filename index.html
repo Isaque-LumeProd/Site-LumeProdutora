@@ -27,6 +27,7 @@
 <link rel="stylesheet" href="assets/layout/layout.css">
 <link rel="stylesheet" href="assets/icons/icon.css">
 <link rel="stylesheet" href="assets/page-motion.css">
+<link rel="stylesheet" href="assets/sx.css">
 <style>
 :root {
   --p-bg: #f2ede3; --p-surface: #e9e2d5; --p-ink: #14110f; --p-muted: #66625c;
@@ -79,6 +80,7 @@
      type: archivo (o mesmo da identidade), radius sharp
      moments: word-highlight (#lume, a frase da marca), pinned-chapters (#processo, as três etapas),
               marquee-row (fim de #trabalhos, os formatos), picture-develops (#orcamento, a foto revela como filme)
+     sx: rolagem imersiva (hero que abre em tela cheia, #luz Luz/Câmera/Ação com play, #servicos horizontal, paralaxe em #trabalhos, foto do fechamento cresce), Lenis
      page-motion: visor REC/timecode no hero, barra de progresso, títulos que sobem, foco nas fotos dos trabalhos -->
 <header class="nav">
   <div class="wrap nav__bar">
@@ -130,7 +132,11 @@
 </svg>
 
 <main id="top">
-  <section class="hero hero--split" data-enter aria-labelledby="hero-h">
+  <section class="hero hero--split" data-enter data-sx="hero" aria-labelledby="hero-h">
+    <div class="sx-layer" aria-hidden="true">
+      <img src="assets/img/photo-f117772889.jpg" srcset="assets/img/photo-f117772889-960.jpg 960w, assets/img/photo-f117772889.jpg 1280w" sizes="100vw" width="1280" height="719" alt="" decoding="async">
+      <p class="sxh__end">Do roteiro à entrega, em <em>Três Lagoas</em>.</p>
+    </div>
     <div class="wrap"><div class="hero-text grid hero__grid">
       <div class="hero__text span-6">
         <h1 id="hero-h">Produtora audiovisual em Três Lagoas, MS</h1>
@@ -144,21 +150,33 @@
     </div></div>
   </section>
 
-  <section class="section" id="servicos" aria-labelledby="servicos-h">
+  <section class="section ground-inverse sx-band" id="luz" data-sx="band" aria-label="Luz, câmera, ação">
+    <div class="sxb__play" aria-hidden="true"><img src="assets/img/photo-f62067974.jpg" srcset="assets/img/photo-f62067974-960.jpg 960w, assets/img/photo-f62067974.jpg 1280w" sizes="100vw" width="1280" height="853" alt="" loading="lazy" decoding="async"></div>
+    <div class="wrap">
+      <p class="sxb__words"><span>Luz.</span> <span>Câmera.</span> <span>Ação.</span></p>
+    </div>
+  </section>
+
+  <section class="section sx-services" id="servicos" data-sx="services" aria-labelledby="servicos-h">
     <div class="wrap">
       <div class="section-head"><h2 id="servicos-h">Filmes para empresas, imóveis e redes</h2><p>Todo projeto começa por onde o vídeo vai passar e por quem precisa assistir.</p></div>
-      <div class="grid grid--top fill" data-peek>
-        <ul class="rows span-5">
-          <li data-peek-to="institucional" tabindex="0"><span class="rows__name">Filme institucional</span><p>A empresa, a equipe e o trabalho de perto, para o site, apresentações e eventos.</p></li>
-          <li data-peek-to="imobiliario" tabindex="0"><span class="rows__name">Imobiliário</span><p>Casas, apartamentos e lançamentos filmados por dentro e por fora, com luz do dia.</p></li>
-          <li data-peek-to="redes" tabindex="0"><span class="rows__name">Conteúdo para redes</span><p>Vídeos curtos na vertical para Reels, TikTok e Shorts, montados para os primeiros segundos.</p></li>
-        </ul>
-        <div class="frame frame--photo frame--fill span-6 start-7">
-          <img loading="lazy" decoding="async" class="frame__img" src="assets/img/photo-f47633482-960.jpg" srcset="assets/img/photo-f47633482-500.jpg 500w, assets/img/photo-f47633482-960.jpg 960w" sizes="(max-width: 1023px) 100vw, 628px" width="960" height="774" alt="Operador de câmera filmando ao ar livre com a câmera num tripé" data-source="stand-in" data-subject="institucional" data-peek-for="institucional">
-          <img loading="lazy" decoding="async" class="frame__img" src="assets/img/photo-f116917645-960.jpg" srcset="assets/img/photo-f116917645-500.jpg 500w, assets/img/photo-f116917645-960.jpg 960w, assets/img/photo-f116917645.jpg 1280w" sizes="(max-width: 1023px) 100vw, 628px" width="1280" height="854" alt="Sala com parede verde, aparador de madeira e luminária acesa" data-source="stand-in" data-subject="imovel" data-peek-for="imobiliario" hidden>
-          <img loading="lazy" decoding="async" class="frame__img" src="assets/img/photo-f71563758-960.jpg" srcset="assets/img/photo-f71563758-500.jpg 500w, assets/img/photo-f71563758-960.jpg 960w, assets/img/photo-f71563758.jpg 1280w" sizes="(max-width: 1023px) 100vw, 628px" width="1280" height="853" alt="Rolo de filme iluminado pela lanterna de um celular, sobre fundo escuro" data-source="stand-in" data-subject="redes" data-peek-for="redes" hidden>
-        </div>
+      <div class="sxs__viewport">
+        <ol class="sxs__track">
+          <li class="sxs__card">
+            <div class="sxs__pic"><img loading="lazy" decoding="async" src="assets/img/photo-f47633482-960.jpg" srcset="assets/img/photo-f47633482-500.jpg 500w, assets/img/photo-f47633482-960.jpg 960w" sizes="(max-width: 1023px) 90vw, 70vw" width="960" height="774" alt="Operador de câmera filmando ao ar livre com a câmera num tripé" data-source="stand-in" data-subject="institucional"></div>
+            <div class="sxs__txt"><span class="sxs__n">01</span><h3>Filme institucional</h3><p>A empresa, a equipe e o trabalho de perto, para o site, apresentações e eventos.</p></div>
+          </li>
+          <li class="sxs__card">
+            <div class="sxs__pic"><img loading="lazy" decoding="async" src="assets/img/photo-f116917645-960.jpg" srcset="assets/img/photo-f116917645-500.jpg 500w, assets/img/photo-f116917645-960.jpg 960w, assets/img/photo-f116917645.jpg 1280w" sizes="(max-width: 1023px) 90vw, 70vw" width="1280" height="854" alt="Sala com parede verde, aparador de madeira e luminária acesa" data-source="stand-in" data-subject="imovel"></div>
+            <div class="sxs__txt"><span class="sxs__n">02</span><h3>Imobiliário</h3><p>Casas, apartamentos e lançamentos filmados por dentro e por fora, com luz do dia.</p></div>
+          </li>
+          <li class="sxs__card">
+            <div class="sxs__pic"><img loading="lazy" decoding="async" src="assets/img/photo-f71563758-960.jpg" srcset="assets/img/photo-f71563758-500.jpg 500w, assets/img/photo-f71563758-960.jpg 960w, assets/img/photo-f71563758.jpg 1280w" sizes="(max-width: 1023px) 90vw, 70vw" width="1280" height="853" alt="Rolo de filme iluminado pela lanterna de um celular, sobre fundo escuro" data-source="stand-in" data-subject="redes"></div>
+            <div class="sxs__txt"><span class="sxs__n">03</span><h3>Conteúdo para redes</h3><p>Vídeos curtos na vertical para Reels, TikTok e Shorts, montados para os primeiros segundos.</p></div>
+          </li>
+        </ol>
       </div>
+      <div class="sxs__bar" aria-hidden="true"><span class="sxs__count">01 / 03</span><span class="sxs__line"><i></i></span></div>
     </div>
   </section>
 
@@ -169,7 +187,7 @@
     </div>
   </section>
 
-  <section class="section ground-inverse" id="trabalhos" aria-labelledby="trabalhos-h">
+  <section class="section ground-inverse" id="trabalhos" data-sx="works" aria-labelledby="trabalhos-h">
     <div class="wrap">
       <div class="section-head"><h2 id="trabalhos-h">Filmes e bastidores da Lume</h2><p>Frames dos filmes e do set, de empresas, imóveis e marcas.</p></div>
       <!-- CLIENT SLOTS: cada frame abaixo é provisório; troque por frames dos filmes da Lume (4:5, ou 16:9 no primeiro) -->
@@ -242,7 +260,7 @@
   </section>
 </main>
 
-<footer class="footer closing" id="contact" aria-labelledby="close-h">
+<footer class="footer closing" id="contact" data-sx="close" aria-labelledby="close-h">
   <div class="wrap">
     <div class="closing__cta close--photo">
       <div class="section-head--split">
@@ -285,5 +303,7 @@
 <script type="module" src="assets/motion/motion.js"></script>
 <script type="module" src="assets/layout/layout.js"></script>
 <script type="module" src="assets/page-motion.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js" defer></script>
+<script type="module" src="assets/sx.js"></script>
 </body>
 </html>
